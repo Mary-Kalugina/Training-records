@@ -9,7 +9,7 @@ const Inputs: React.FC<InputsProps> = ({ notes, changeNotes })=> {
   const [inputDate, setDate] = useState('');
   const [inputDistance, setDistance] = useState('');
   const [border, setBorderColor] = useState('');
-  const regx = /^[0-9]{2}(.)[0-9]{2}(.)[0-9]{2}$/;
+  const regx = /^[0-9]{2}(-)[0-9]{2}(-)[0-9]{4}$/;
 
   const getInputData = () => {
     if (regx.test(inputDate)) {
@@ -24,7 +24,7 @@ const Inputs: React.FC<InputsProps> = ({ notes, changeNotes })=> {
           };
           changeNotes(updatedNotes);
         } else {
-          changeNotes([...notes, { date: inputDate, distance: Number(inputDistance) }]);
+          sortNotes([...notes, { date: inputDate, distance: Number(inputDistance) }]);
         }
         setDate("");
         setDistance("");
@@ -33,12 +33,25 @@ const Inputs: React.FC<InputsProps> = ({ notes, changeNotes })=> {
       setBorderColor("red");
     }
   };
+ 
+  function sortNotes(notes: Array<{ date: string, distance: number }>) {
+    changeNotes(notes.sort((a, b) => {
+      const dateA = a.date;
+      const dateB = b.date;
+      if (dateA < dateB) {
+        return 1;
+      }
+      if (dateA > dateB) {
+        return -1;
+      }
+      return 0;
+    }))
+  }
   
-
   return (
     <div className="inputContainer">
       <div className='inputs'> 
-        <label htmlFor="date">Дата(ДД.ММ.ГГ)</label>
+        <label htmlFor="date">Дата(ДД-ММ-ГГ)</label>
         <input 
           id="date" 
           value={inputDate} 

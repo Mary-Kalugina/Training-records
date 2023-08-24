@@ -18,7 +18,7 @@ const App: React.FC = () => {
       notes={notes}
       changeNotes={setNotes}/>
       <div className='header'>
-          <span>Дата(ДД.ММ.ГГ)</span>
+          <span>Дата(ДД-ММ-ГГ)</span>
           <span>Пройдено км</span>
           <span>Действия</span>
       </div>
